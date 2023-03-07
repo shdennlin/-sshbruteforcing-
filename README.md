@@ -1,6 +1,6 @@
 # SSH Brute Forcing Script 
 
-1. Run the command `pip install -r requirements.txt` or `poetry install` to install all the packages required in your virtual environment.
+1. Run the command `pip install -r requirements.txt` or `poetry install --only main` to install all the packages required in your virtual environment.
 2. Run `python main.py` this will run the program
 
 ### Basic Attack
